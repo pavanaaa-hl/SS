@@ -1,0 +1,56 @@
+//2lex
+
+
+%{
+  #include "y.tab.h"
+%}
+  
+%%
+ 
+a { return A;}
+b { return B;}
+\n { return 0;}
+. { return yytext[0];}
+ 
+
+//2yacc
+
+%{
+  #include<stdio.h>
+  #include<stdlib.h>
+  int account=0,n;
+%}
+  
+%token A
+%token B
+%%
+  
+S: X B { if(account!=n)
+	{
+	yyFAIL();
+   		 } }
+X: X T| T
+T: A {account++;}
+;
+%%
+    
+    int main(){
+    printf("enter n and string\n");
+    scanf("%d",&n);
+    yyparse();
+    printf("valid string\n");
+    }
+    
+    int yyFAIL(){
+    printf("Invalid con\n");
+    exit(0);
+    }
+    
+    int yyerror(){
+    printf("Invald string\n");
+    exit(0);
+    }
+    
+  
+ 
+ 
