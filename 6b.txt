@@ -1,0 +1,45 @@
+//6b lex
+
+%{
+#include<stdio.h>
+#include "y.tab.h"
+%}
+
+%%
+int|char|bool|if|else|do|while|void|main|float|for|return {printf("keyword is %s\n",yytext);return KEY;}
+[+|-|*|/|<|>|=] {printf("operaor is %s\n",yytext);return OP;}
+[_a-zA-Z][a-zA-Z0-9]* {printf("id is %s\n",yytext);return ID;}
+%%
+
+
+
+
+//6byacc
+
+%{
+#include<stdio.h>
+#include<stdlib.h>
+int id=0,key=0,op=0;
+%}
+
+%token KEY ID OP
+
+%%
+input:ID input {id++;}
+     |KEY input {key++;}
+     |OP input {op++;}
+     |ID {id++;}
+     |KEY {key++;}
+     |OP {op++;}
+ ;
+%%
+extern FILE *yyin;
+void main(){
+yyin=fopen("input6b.c","r");
+yyparse();
+printf("keywords are %d\nidentifiers are %d\nopeartors are %d\n",key,id,op);
+}
+
+void yyerror(){
+printf("Not valid\n");
+}
