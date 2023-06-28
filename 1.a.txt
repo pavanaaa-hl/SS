@@ -1,12 +1,14 @@
 //1.b.lex part
 
 %{
-#include<stdio.h>
-#include<string.h>
-extern FILE *yyin;
-char inp[30],stack[30];
-int inpCount, sCount;
+#include "y.tab.h"
+#include<stdlib.h>
+extern int yylval
 %}
+%%
+[0-9]+ {yylval=atoi(text);return NUM;}
+\n {return yytext[0];}
+. {return yytext[0];}
 
 //1.b yacc part
 
